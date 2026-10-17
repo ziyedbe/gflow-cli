@@ -88,6 +88,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **A successful `gflow character create` remembers which character it made** (#737). The
   completion write replaced the operation's metadata and dropped the `entity_id` and `name`
   the start had recorded; it now merges, so `gflow data` can tie a voice to its character.
+- **Image generation no longer drives a character editor.** Checking "is the page already
+  on this project?" compared URL prefixes, and a character editor's address
+  (`/project/<id>/character/<entity>`) starts with its project's. An image run after a
+  character import therefore stayed on the editor, typed into its prompt box and failed as an
+  agent-only account (exit 25). It is now an exact route comparison.
+- **A video that Flow queues without naming the clip never takes an older clip of the
+  project as its own.** gflow records the clips the project already holds when it opens the
+  editor, and adopts only one that is not on that list. If that list could not be read, the
+  run stops at once with the advice to open the project in Flow before re-running.
+- **A browser timeout in the character editor exits 23 (selector drift), not 1**, both before
+  the create (opening the draft, the file chooser) and when editing a character on its own.
+- **A create whose two replies are both lost no longer makes a second character.** gflow
+  reads the project's characters first, and on a retry adopts the one the project gained
+  instead of uploading the portrait again.
 - **The voice catalog lists 30 voices.** `Enceladus` ("Male, breathy, lower pitch") was in
   Flow's live catalog and missing from `gflow character voices`.
 - **Log and error scrubbing covers flow.google.com's wire.** reCAPTCHA Enterprise tokens, the
